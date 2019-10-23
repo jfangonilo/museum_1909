@@ -26,4 +26,11 @@ class PatronTest < Minitest::Test
     @bob.add_interest("Gems and Minerals")
     assert_equal ["Dead Sea Scrolls", "Gems and Minerals"], @bob.interests
   end
+
+  def test_spend_money
+    @bob.spend_money(10)
+    assert_equal 10, @bob.spending_money
+    @bob.spend_money(15)
+    assert_equal 10, @bob.spending_money
+  end
 end

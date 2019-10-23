@@ -10,4 +10,8 @@ class Patron
   def add_interest(topic)
     @interests << topic
   end
+
+  def spend_money(amount)
+    (@spending_money -= amount) unless amount > spending_money
+  end
 end

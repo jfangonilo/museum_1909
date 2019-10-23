@@ -92,4 +92,38 @@ class MuseumTest < Minitest::Test
     assert_equal [@bob], @dmns.interested_patrons(@gems_and_minerals)
     assert_equal [], @dmns.interested_patrons(@imax)
   end
+
+  def test_patrons_spend_money_accordingly
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@imax)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    tj = Patron.new("TJ", 7)
+    tj.add_interest("IMAX") #15
+    tj.add_interest("Dead Sea Scrolls") #10
+    @dmns.admit(tj)
+    require "pry"; binding.pry
+    assert_equal 7, tj.spending_money
+    # patron doesn't have money to attend anything
+
+    bob = Patron.new("Bob", 10)
+    bob.add_interest("Dead Sea Scrolls") #10
+    bob.add_interest("IMAX") #15
+    @dmns.admit(bob)
+    assert_equal 0, bob.spending_money
+    # patron only attends dead sea scrolls
+
+    sally = Patron.new("Sally", 20)
+    sally.add_interest("IMAX") #15
+    sally.add_interest("Dead Sea Scrolls") #10
+    @dmns.admit(sally)
+    assert_equal 5, sally.spending_money
+    # patron only attends imax
+
+    morgan = Patron.new("Morgan", 15)
+    morgan.add_interest("Gems and Minerals") #0
+    morgan.add_interest("Dead Sea Scrolls") #10
+    @dmns.admit(morgan)
+    assert_equal 5, morgan.spending_money
+    # patron attends both
+  end
 end

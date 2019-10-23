@@ -12,7 +12,7 @@ class Museum
   end
 
   def recommend_exhibits(patron)
-    exhibits.flat_map do |exhibit|
+    exhibits.map do |exhibit|
       exhibit if patron.interests.include?(exhibit.name)
     end.compact
   end
