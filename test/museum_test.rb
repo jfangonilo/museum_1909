@@ -128,5 +128,7 @@ class MuseumTest < Minitest::Test
     @dmns.admit(morgan)
     assert_equal 5, morgan.spending_money
     # patron attends both
+
+    assert_equal 35, @dmns.revenue
   end
 end
