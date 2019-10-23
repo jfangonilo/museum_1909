@@ -20,6 +20,12 @@ class Museum
 
   def admit(patron)
     @patrons << patron
+    @exhibits.each do |exhibit|
+      if patron.interests.include?(exhibit.name)
+        patron.attend_exhibit(exhibit)
+        @revenue += exhibit.cost
+      end
+    end
   end
 
   def interested_patrons(exhibit)

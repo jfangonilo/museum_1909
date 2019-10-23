@@ -98,7 +98,6 @@ class MuseumTest < Minitest::Test
   end
 
   def test_patrons_spend_money_accordingly
-    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@imax)
     @dmns.add_exhibit(@dead_sea_scrolls)
