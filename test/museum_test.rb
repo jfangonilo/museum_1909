@@ -41,12 +41,55 @@ class MuseumTest < Minitest::Test
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
-    
+
     @bob.add_interest("Dead Sea Scrolls")
     @bob.add_interest("Gems and Minerals")
     @sally.add_interest("IMAX")
 
     assert_equal [@gems_and_minerals, @dead_sea_scrolls], @dmns.recommend_exhibits(@bob)
     assert_equal [@imax], @dmns.recommend_exhibits(@sally)
+  end
+
+  def test_it_starts_without_patrons
+    assert_equal [], @dmns.patrons
+  end
+
+  def test_it_can_admit_patrons
+    @dmns.admit(@bob)
+    assert_equal [@bob], @dmns.patrons
+    @dmns.admit(@sally)
+    assert_equal [@bob, @sally], @dmns.patrons
+  end
+
+  def test_patrons_by_exhibit
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
+    @bob.add_interest("Dead Sea Scrolls")
+    @bob.add_interest("Gems and Minerals")
+    @sally.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@bob)
+    @dmns.admit(@sally)
+
+    expected = {
+      @gems_and_minerals => [@bob],
+      @dead_sea_scrolls => [@bob, @sally],
+      @imax => []
+    }
+    assert_equal expected, @dmns.patrons_by_interest
+  end
+
+  def test_interested_patrons
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
+    @bob.add_interest("Dead Sea Scrolls")
+    @bob.add_interest("Gems and Minerals")
+    @sally.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@bob)
+    @dmns.admit(@sally)
+    assert_equal [@bob, @sally], @dmns.interested_patrons(@dead_sea_scrolls)
+    assert_equal [@bob], @dmns.interested_patrons(@gems_and_minerals)
+    assert_equal [], @dmns.interested_patrons(@imax)
   end
 end
