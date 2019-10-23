@@ -93,7 +93,12 @@ class MuseumTest < Minitest::Test
     assert_equal [], @dmns.interested_patrons(@imax)
   end
 
+  def test_revenue_starts_zero
+    assert_equal 0, @dmns.revenue
+  end
+
   def test_patrons_spend_money_accordingly
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@imax)
     @dmns.add_exhibit(@dead_sea_scrolls)
@@ -101,7 +106,6 @@ class MuseumTest < Minitest::Test
     tj.add_interest("IMAX") #15
     tj.add_interest("Dead Sea Scrolls") #10
     @dmns.admit(tj)
-    require "pry"; binding.pry
     assert_equal 7, tj.spending_money
     # patron doesn't have money to attend anything
 

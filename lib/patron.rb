@@ -14,4 +14,8 @@ class Patron
   def spend_money(amount)
     (@spending_money -= amount) unless amount > spending_money
   end
+
+  def attend_exhibit(exhibit)
+    spend_money(exhibit.cost) unless exhibit.cost > spending_money
+  end
 end
