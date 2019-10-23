@@ -23,7 +23,7 @@ class Museum
     @exhibits.each do |exhibit|
       if patron.interests.include?(exhibit.name)
         patron.attend_exhibit(exhibit)
-        @revenue += exhibit.cost
+        @revenue += exhibit.cost unless (exhibit.cost > patron.spending_money)
       end
     end
   end
